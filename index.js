@@ -36,10 +36,21 @@ Blog.init({
   modelName: 'blog'
 });
 
+Blog.sync();
+
 app.get('/api/blogs', async (req, res) => {
   const blogs = await Blog.findAll();
   res.json(blogs);
 });
+
+app.get('/api/blogs/:id', async (req, res) => {
+  const blog = await Blog.findByPk(req.params.id);
+  if (blog) {
+    res.json(blog);
+  } else {
+    res.status(404).end();
+  }
+})
 
 app.post('/api/blogs', async (req, res) => {
   try {
